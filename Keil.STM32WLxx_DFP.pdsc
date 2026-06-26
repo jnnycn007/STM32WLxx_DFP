@@ -15,6 +15,8 @@
   <releases>
     <release version="2.1.1-dev">
       Active development ...
+      Package Description:
+      - Added templates conditions (to filter single-core or dual-core devices)
     </release>
     <release version="1.2.0" date="2024-02-02">
       Updated Pack to STM32Cube_FW_WL Firmware Package version V1.3.0 (using HAL Drivers V1.3.0).
@@ -356,6 +358,23 @@ High-performance STM32WL MCUs with Arm Cortex-M4 core, MPU, DSP, ART Accelerator
       <description>STMicroelectronics STM32WL devices</description>
       <require Dvendor="STMicroelectronics:13" Dname="STM32WL*"/>
       <deny    Dvendor="STMicroelectronics:13" Dname="STM32WL3*"/>
+      <deny    Dvendor="STMicroelectronics:13" Dname="STM32WL4*"/>
+    </condition>
+
+    <!-- Device Conditions (Single-core)-->
+    <condition id="STM32WL SingleCore">
+      <description>STMicroelectronics STM32WL single-core Cortex-M4 devices</description>
+      <require condition="STM32WL"/>
+      <accept Dname="STM32WLE4*"/>
+      <accept Dname="STM32WLE5*"/>
+    </condition>
+
+    <!-- Device Conditions (Dual core)-->
+    <condition id="STM32WL DualCore">
+      <description>STMicroelectronics STM32WL dual-core devices with Cortex-M4 and Cortex-M0+</description>
+      <require condition="STM32WL"/>
+      <accept Dname="STM32WL54*"/>
+      <accept Dname="STM32WL55*"/>
     </condition>
 
     <!-- Device + CMSIS Conditions -->
@@ -383,11 +402,11 @@ High-performance STM32WL MCUs with Arm Cortex-M4 core, MPU, DSP, ART Accelerator
 
   <csolution>
     <!-- CubeMX Basic CMSIS Solution template -->
-    <template name="CubeMX Basic solution" path="Templates/CubeMX" file="CubeMX.csolution.yml" condition="STM32WL">
+    <template name="CubeMX Basic solution" path="Templates/CubeMX" file="CubeMX.csolution.yml" condition="STM32WL SingleCore">
       <description>Create a CubeMX basic solution with project</description>
     </template>
     <!-- CubeMX Dual Core CMSIS Solution template -->
-    <template name="CubeMX Dual Core solution" path="Templates/CubeMX_DualCore" file="CubeMX_DualCore.csolution.yml" condition="STM32WL">
+    <template name="CubeMX Dual Core solution" path="Templates/CubeMX_DualCore" file="CubeMX_DualCore.csolution.yml" condition="STM32WL DualCore">
       <description>Create a CubeMX Dual Core solution with CM4 and CM0PLUS projects</description>
     </template>
   </csolution>
